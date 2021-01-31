@@ -15,93 +15,35 @@ import java.io.OutputStream;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
+    public  static final String DB_NAME = "180127U";
+    public  static final String TABLE_1 = "Account";
+    public  static final String TABLE_2 = "Transactions";
 
-    String DB_PATH = null;
-    private static String DB_NAME = "180127U";
-    private SQLiteDatabase myDataBase;
-    private final Context myContext;
+
 
     public DatabaseHelper(Context context) {
-        super(context, DB_NAME, null, 10);
-        this.myContext = context;
-        this.DB_PATH = "/data/data/" + context.getPackageName() + "/" + "databases/";
-        Log.e("Path 1", DB_PATH);
-    }
-
-
-    public void createDataBase() throws IOException {
-        boolean dbExist = checkDataBase();
-        if (dbExist) {
-        } else {
-            this.getReadableDatabase();
-            try {
-                copyDataBase();
-            } catch (IOException e) {
-                throw new Error("Error copying database");
-            }
-        }
-    }
-
-    private boolean checkDataBase() {
-        SQLiteDatabase checkDB = null;
-        try {
-            String myPath = DB_PATH + DB_NAME;
-            checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
-        } catch (SQLiteException e) {
-        }
-        if (checkDB != null) {
-            checkDB.close();
-        }
-        return checkDB != null ? true : false;
-    }
-
-    private void copyDataBase() throws IOException {
-        InputStream myInput = myContext.getAssets().open(DB_NAME);
-        String outFileName = DB_PATH + DB_NAME;
-        OutputStream myOutput = new FileOutputStream(outFileName);
-        byte[] buffer = new byte[10];
-        int length;
-        while ((length = myInput.read(buffer)) > 0) {
-            myOutput.write(buffer, 0, length);
-        }
-        myOutput.flush();
-        myOutput.close();
-        myInput.close();
-
-    }
-
-    public void openDataBase() throws SQLException {
-        String myPath = DB_PATH + DB_NAME;
-        myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
-
+        super(context, DB_NAME, null, 11);
+        SQLiteDatabase db = this.getWritableDatabase();
     }
 
     @Override
-    public synchronized void close() {
-        if (myDataBase != null)
-            myDataBase.close();
-        super.close();
-    }
-
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        String ddl_q_1 = "create table "+TABLE_1+" (accountNo TEXT(50) PRIMARY KEY,bank_name TEXT(50),acc_holder_name TEXT(50),init_balance NUMERIC) ";
+        String ddl_q_2 = " create table "+TABLE_2+" (account_number TEXT(50) ,date date, expense_type TEXT(20),amount REAL,FOREIGN KEY (account_number) REFERENCES "+TABLE_1+"(accountNo))";
+        sqLiteDatabase.execSQL(ddl_q_1);
+        sqLiteDatabase.execSQL(ddl_q_2);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (newVersion > oldVersion)
-            try {
-                copyDataBase();
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            }
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        String delete_q = "DROP TABLE IF EXISTS "+TABLE_1;
+        String delete_q_2 ="DROP TABLE IF EXISTS "+TABLE_2;
+        sqLiteDatabase.execSQL(delete_q);
+        sqLiteDatabase.execSQL(delete_q_2);
+        onCreate(sqLiteDatabase);
     }
 
-    public Cursor query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
-        return myDataBase.query("180127U", null, null, null, null, null, null);
-    }
+
 
 
 }
