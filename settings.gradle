@@ -1,1 +1,2 @@
+include ':sqlite-android-3340100'
 include ':app'
