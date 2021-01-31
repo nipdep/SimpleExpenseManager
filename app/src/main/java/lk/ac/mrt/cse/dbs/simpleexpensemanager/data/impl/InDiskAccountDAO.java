@@ -36,13 +36,13 @@ public class InDiskAccountDAO implements AccountDAO {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] projection = {"accountNo"};
         Cursor cursor = db.query(
-                "Account",   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                null,              // The columns for the WHERE clause
-                null,          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
-                null               // The sort order
+                "Account",
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
         );
         if (cursor.moveToFirst()) {
             do {
@@ -61,13 +61,13 @@ public class InDiskAccountDAO implements AccountDAO {
                 "accountNo", "bank_name", "acc_holder_name","init_balance"
         };
         Cursor cursor = db.query(
-                "Account",   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                null,              // The columns for the WHERE clause
-                null,          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
-                null               // The sort order
+                "Account",
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
         );
         if (cursor.moveToFirst()) {
             do {
@@ -87,13 +87,13 @@ public class InDiskAccountDAO implements AccountDAO {
         String selection = "accountNo" + " = ?";
         String[] selectionArgs = { accountNo };
         Cursor cursor = db.query(
-                "Account",   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                selection,              // The columns for the WHERE clause
-                selectionArgs,          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
-                null               // The sort order
+                "Account",
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
         );
         if (cursor.moveToFirst()) {
             return new Account(cursor.getString(0),cursor.getString(1), cursor.getString(2), Double.parseDouble(cursor.getString(3)));

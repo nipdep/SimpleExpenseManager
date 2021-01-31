@@ -1,0 +1,4 @@
+#Sun Jan 31 18:04:28 IST 2021
+base.0=F\:\\ACA sem 04\\180127U\\CS3042 - Database Systems\\week -10\\SimpleExpenseManager\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

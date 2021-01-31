@@ -80,13 +80,13 @@ public class InDiskTransactionDAO implements TransactionDAO {
                 "date","account_number",  "expense_type", "amount"
         };
         Cursor cursor = db.query(
-                "Transactions",   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                null,              // The columns for the WHERE clause
-                null,          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
-                null               // The sort order
+                "Transactions",
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
         );
         if (cursor.moveToFirst()) {
             do {
